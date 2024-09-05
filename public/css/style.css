@@ -1,0 +1,248 @@
+/* Estilos básicos */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Asegura que el contenedor principal ocupe el alto completo de la ventana */
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 20px;
+  overflow: auto; /* Permite el scroll si el contenido crece */
+  max-height: 90vh; /* Limita la altura del contenedor */
+}
+
+/* Glassmorphism para darle modernidad a las cajas */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para los encabezados */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Estilo para los formularios */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Botón con animación */
+button {
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.btn-animate {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-animate:hover {
+  background-color: #218838;
+  transform: scale(1.08);
+}
+
+/* Estilos de los botones de la lista de tareas */
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Enlaces */
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Lista de tareas */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  max-height: 60vh; /* Limita la altura de la lista de tareas */
+  overflow-y: auto; /* Activa el scroll vertical si las tareas exceden la altura */
+}
+
+.task-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background-color: #f9f9f9;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.task-list li:hover {
+  background-color: #eef2ff;
+  transform: scale(1.02);
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Optimizar el contenedor de botones de la lista de tareas */
+.task-buttons {
+  display: flex;
+  justify-content: flex-end; /* Alinear botones a la derecha */
+  gap: 8px; /* Separación uniforme entre botones */
+}
+
+/* Alinear el texto y formulario de tarea correctamente */
+.task-text {
+  flex: 1; /* El texto ocupa todo el espacio restante */
+  padding-right: 10px; /* Espacio para evitar que el texto toque los botones */
+}
+
+.task-edit-form {
+  display: inline-flex;
+  flex: 1; /* Hacer que el formulario de edición ocupe el espacio completo */
+  gap: 8px; /* Separación entre input y botón */
+}
+
+/* Botones pequeños para una interfaz más limpia */
+.btn-small {
+  padding: 6px 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-toggle-status {
+  padding: 6px 8px;
+}
+
+.btn-edit {
+  background-color: #17a2b8; /* Azul claro */
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #138496; /* Azul más oscuro al pasar el cursor */
+}
+
+/* Botón de completar (verde) */
+.btn-complete {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+
+.btn-complete:hover {
+  background-color: #218838; /* Verde más oscuro al pasar el cursor */
+}
+
+/* Botón de marcar como pendiente (amarillo) */
+.btn-pending {
+  background-color: #ffc107; /* Amarillo */
+  color: white;
+}
+
+.btn-pending:hover {
+  background-color: #e0a800; /* Amarillo más oscuro al pasar el cursor */
+}
+
+
+/* Botón de eliminar (rojo) */
+.btn-danger {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Rojo más oscuro al pasar el cursor */
+}
+
+.btn-edit, .btn-danger, .btn-toggle-status {
+  width: 40px; /* Botones de tamaño uniforme */
+  height: 40px;
+}
+
+/* Iconos centrados dentro de los botones */
+.btn-edit i, .btn-danger i, .btn-toggle-status i {
+  font-size: 16px;
+}
+
+/* Mejorar la responsividad de la lista de tareas */
+.task-list li {
+  flex-wrap: wrap; /* Permitir que el contenido se ajuste en pantallas pequeñas */
+}
+
+@media (max-width: 600px) {
+  .task-buttons {
+    flex-wrap: wrap; /* Botones en una segunda línea si no hay espacio */
+  }
+}
+
+/* Formulario de edición oculto por defecto */
+.task-edit-form {
+  display: none; /* Ocultar el formulario de edición inicialmente */
+}
