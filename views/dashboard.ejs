@@ -7,21 +7,14 @@
     <!-- Cargar los estilos desde el archivo CSS -->
     <link rel="stylesheet" href="/css/style.css" />
     <!-- Enlazar Font Awesome para usar iconos -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body>
     <div class="container">
       <h1>Bienvenido, <%= user.username %></h1>
 
       <!-- Botón de cerrar sesión alineado a la derecha -->
-      <form
-        action="/logout"
-        method="GET"
-        style="text-align: right; margin-bottom: 20px"
-      >
+      <form action="/logout" method="GET" style="text-align: right; margin-bottom: 20px;">
         <button type="submit" class="btn-animate">Cerrar sesión</button>
       </form>
 
@@ -35,55 +28,32 @@
       <h2>Mis Tareas</h2>
       <ul class="task-list">
         <% tasks.forEach(function(task) { %>
-        <li
-          class="task-item <%= task.completed ? 'completed-task' : 'pending-task' %>"
-        >
-          <span id="task-text-<%= task._id %>" class="task-text"
-            ><%= task.task %></span
-          >
+        <li class="task-item <%= task.completed ? 'completed-task' : 'pending-task' %>">
+          <span id="task-text-<%= task._id %>" class="task-text"><%= task.task %></span>
 
           <!-- Formulario para actualizar la tarea, oculto inicialmente -->
-          <form
-            id="update-form-<%= task._id %>"
-            action="/task/update-text/<%= task._id %>"
-            method="POST"
-            class="task-edit-form"
-          >
+          <form id="update-form-<%= task._id %>" action="/task/update-text/<%= task._id %>" method="POST" class="task-edit-form">
             <input type="text" name="task" value="<%= task.task %>" required />
             <button type="submit" class="btn-small btn-update">Guardar</button>
           </form>
 
           <!-- Contenedor de botones alineados -->
           <div class="task-buttons">
-            <button
-              type="button"
-              class="btn-small btn-edit"
-              onclick="toggleEdit('<%= task._id %>')"
-            >
-              <i class="fas fa-edit"></i>
-              <!-- Icono de edición -->
+            <button type="button" class="btn-small btn-edit" data-task-id="<%= task._id %>">
+              <i class="fas fa-edit"></i> <!-- Icono de edición -->
             </button>
 
             <form action="/task/update/<%= task._id %>" method="POST">
-              <input
-                type="hidden"
-                name="completed"
-                value="<%= !task.completed %>"
-              />
-              <button
-                type="submit"
-                class="btn-toggle-status <%= task.completed ? 'btn-pending' : 'btn-complete' %>"
-              >
-                <i class="fas fa-check"></i>
-                <!-- Icono para completar -->
+              <input type="hidden" name="completed" value="<%= !task.completed %>" />
+              <button type="submit" class="btn-toggle-status <%= task.completed ? 'btn-pending' : 'btn-complete' %>">
+                <i class="fas fa-check"></i> <!-- Icono para completar -->
               </button>
             </form>
 
             <form action="/task/delete" method="POST">
               <input type="hidden" name="id" value="<%= task._id %>" />
               <button type="submit" class="btn-small btn-danger">
-                <i class="fas fa-trash"></i>
-                <!-- Icono de eliminación -->
+                <i class="fas fa-trash"></i> <!-- Icono de eliminación -->
               </button>
             </form>
           </div>
@@ -92,22 +62,7 @@
       </ul>
     </div>
 
-    <!-- JavaScript para mostrar/ocultar el formulario de edición -->
-    <script>
-      function toggleEdit(taskId) {
-        const form = document.getElementById("update-form-" + taskId);
-        const taskText = document.getElementById("task-text-" + taskId);
-
-        const formDisplay = window.getComputedStyle(form).display; // Detectar visibilidad actual del formulario
-
-        if (formDisplay === "none") {
-          form.style.display = "inline"; // Mostrar el formulario
-          taskText.style.display = "none"; // Ocultar el texto original
-        } else {
-          form.style.display = "none"; // Ocultar el formulario
-          taskText.style.display = "inline"; // Mostrar el texto original
-        }
-      }
-    </script>
+    <!-- Incluir el archivo JavaScript externo -->
+    <script src="/js/main.js"></script>
   </body>
 </html>
