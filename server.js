@@ -16,6 +16,9 @@ const csrf = require("csurf");
 // Inicializar la aplicación Express
 const app = express();
 
+app.set('trust proxy', 1); // Indica que hay un proxy delante (1 significa que confía en el primer proxy)
+
+
 // Middleware de compresión
 app.use(compression());
 
