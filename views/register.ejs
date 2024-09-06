@@ -3,24 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro de usuario</title>
+
+  <!-- Título claro y específico -->
+  <title>Registro de usuario - Lista de Tareas</title>
+
+  <!-- Descripción para los motores de búsqueda -->
+  <meta name="description" content="Regístrate para gestionar tus tareas diarias. Crea una cuenta y empieza a organizar tus actividades con facilidad.">
+
+  <!-- Indicaciones para los motores de búsqueda -->
+  <meta name="robots" content="index, follow">
+
+  <!-- Enlace a la hoja de estilos -->
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-  <div class="container glassmorphism">
-    <h1>Registro</h1>
+  <!-- Encabezado principal -->
+  <header>
+    <h1>Registro de Usuario</h1>
+  </header>
 
-    <form action="/register" method="POST">
-      <label for="username">Nombre de usuario</label>
-      <input type="text" id="username" name="username" required>
+  <!-- Contenido principal -->
+  <main>
+    <section aria-labelledby="form-title">
+      <div class="container glassmorphism">
+        <!-- Título del formulario con ARIA -->
+        <h2 id="form-title">Crear una nueva cuenta</h2>
 
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" name="password" required>
+        <!-- Mostrar mensajes de error si los hay -->
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+          <div class="error-messages">
+            <ul>
+              <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+              <% }); %>
+            </ul>
+          </div>
+        <% } %>
 
-      <button type="submit" class="btn-animate">Registrar</button>
-    </form>
+        <!-- Formulario de registro con atributos ARIA -->
+        <form action="/register" method="POST" aria-labelledby="form-title">
+          <!-- Incluir el token CSRF -->
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- Token CSRF -->
 
-    <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
-  </div>
+          <!-- Campo de nombre de usuario con ARIA -->
+          <label for="username">Nombre de usuario</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Introduce tu nombre de usuario"
+            value="<%= data ? data.username : '' %>"
+            required
+            aria-required="true"
+            aria-describedby="username-desc"
+          />
+          <span id="username-desc" class="visually-hidden">Por favor, introduce tu nombre de usuario</span>
+
+          <!-- Campo de contraseña con ARIA -->
+          <label for="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Introduce tu contraseña"
+            required
+            aria-required="true"
+            aria-describedby="password-desc"
+          />
+          <span id="password-desc" class="visually-hidden">Por favor, introduce una contraseña segura</span>
+
+          <!-- Botón accesible con descripción -->
+          <button type="submit" class="btn-animate">Registrar</button>
+        </form>
+
+        <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer>
+    <p>&copy; 2024 Lista de Tareas. Todos los derechos reservados.</p>
+  </footer>
 </body>
 </html>

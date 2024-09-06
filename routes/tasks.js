@@ -1,42 +1,58 @@
 const express = require("express");
+const { body, validationResult } = require("express-validator"); // Importamos express-validator
 const Task = require("../models/Task");
 const { ensureAuthenticated } = require("../middleware/auth");
 const router = express.Router();
 
-
-// Middleware para deshabilitar el almacenamiento en caché
-function noCache(req, res, next) {
-  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "-1");
-  next();
-}
-
-// Mostrar las tareas del usuario autenticado
-router.get("/dashboard", ensureAuthenticated, noCache, async (req, res) => {
+// Mostrar las tareas del usuario autenticado con el token CSRF
+router.get("/dashboard", ensureAuthenticated, async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.user._id });
-    res.render("dashboard", { user: req.user, tasks });
+    res.render("dashboard", { user: req.user, tasks, csrfToken: req.csrfToken() });
   } catch (err) {
     res.status(500).send("Error al cargar las tareas");
   }
 });
 
+// Crear nueva tarea con validación
+router.post(
+  "/task",
+  ensureAuthenticated,
+  [
+    body("task")
+      .trim()
+      .notEmpty().withMessage("El campo de la tarea no puede estar vacío."),
+  ],
+  async (req, res) => {
+    const { task } = req.body;
 
-// Crear nueva tarea
-router.post("/task", ensureAuthenticated, async (req, res) => {
-  const { task } = req.body;
-  try {
-    const newTask = new Task({
-      userId: req.user._id,
-      task,
-    });
-    await newTask.save();
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(500).send("Error al crear la tarea");
+    // Manejo de errores de validación
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      try {
+        const tasks = await Task.find({ userId: req.user._id }); // Cargamos las tareas existentes
+        return res.render("dashboard", {
+          user: req.user,
+          tasks,
+          errors: errors.array(),
+        });
+      } catch (err) {
+        return res.status(500).send("Error al cargar las tareas para mostrar los errores.");
+      }
+    }
+
+    try {
+      const newTask = new Task({
+        userId: req.user._id,
+        task,
+      });
+      await newTask.save();
+      res.redirect("/dashboard");
+    } catch (err) {
+      res.status(500).send("Error al crear la tarea");
+    }
   }
-});
+);
 
 // Actualizar el estado de una tarea (completada o no)
 router.post("/task/update/:id", ensureAuthenticated, async (req, res) => {
@@ -61,17 +77,41 @@ router.post("/task/delete", ensureAuthenticated, async (req, res) => {
   }
 });
 
-// Ruta para actualizar el texto de una tarea
-router.post("/task/update-text/:id", ensureAuthenticated, async (req, res) => {
-  const taskId = req.params.id;
-  const updatedTask = req.body.task;
+// Ruta para actualizar el texto de una tarea con validación
+router.post(
+  "/task/update-text/:id",
+  ensureAuthenticated,
+  [
+    body("task")
+      .trim()
+      .notEmpty().withMessage("El texto de la tarea no puede estar vacío."),
+  ],
+  async (req, res) => {
+    const taskId = req.params.id;
+    const updatedTask = req.body.task;
 
-  try {
-    await Task.findByIdAndUpdate(taskId, { task: updatedTask });
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(500).send("Error al actualizar la tarea.");
+    // Manejo de errores de validación
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      try {
+        const tasks = await Task.find({ userId: req.user._id }); // Cargamos las tareas existentes
+        return res.render("dashboard", {
+          user: req.user,
+          tasks,
+          errors: errors.array(),
+        });
+      } catch (err) {
+        return res.status(500).send("Error al cargar las tareas para mostrar los errores.");
+      }
+    }
+
+    try {
+      await Task.findByIdAndUpdate(taskId, { task: updatedTask });
+      res.redirect("/dashboard");
+    } catch (err) {
+      res.status(500).send("Error al actualizar la tarea.");
+    }
   }
-});
+);
 
 module.exports = router;

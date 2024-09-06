@@ -1,25 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar sesión</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Iniciar sesión</h1>
-    <form action="/login" method="POST">
-      <label for="username">Usuario</label>
-      <input type="text" id="username" name="username" required>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Etiquetas SEO -->
+    <meta name="description" content="Inicia sesión para acceder a la lista de tareas. Mantén tus tareas organizadas y fáciles de gestionar." />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <!-- Título descriptivo -->
+    <title>Iniciar Sesión - Lista de Tareas</title>
+    
+    <!-- Enlace a los estilos -->
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
 
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" name="password" required>
+  <body>
+    <!-- Encabezado de la página -->
+    <header>
+      <h1>Iniciar sesión</h1>
+    </header>
 
-      <button type="submit" class="btn-animate">Iniciar sesión</button>
-    </form>
+    <!-- Contenido principal -->
+    <main>
+      <section aria-labelledby="login-title">
+        <div class="container glassmorphism">
+          <!-- Título del formulario, mejorando la accesibilidad -->
+          <h2 id="login-title">Accede a tu cuenta</h2>
 
-    <p>¿No tienes una cuenta? <a href="/register">Regístrate aquí</a></p>
-  </div>
-</body>
+          <!-- Formulario de inicio de sesión con etiquetas ARIA -->
+          <form action="/login" method="POST" aria-labelledby="login-title">
+            <!-- Incluir el token CSRF -->
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- Token CSRF -->
+
+            <!-- Etiqueta clara y campo de texto con atributos ARIA -->
+            <label for="username">Nombre de usuario</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              aria-required="true"
+              aria-describedby="username-desc"
+              placeholder="Introduce tu usuario"
+            />
+            <span id="username-desc" class="visually-hidden">Por favor, introduce tu nombre de usuario</span>
+
+            <!-- Etiqueta clara y campo de contraseña con atributos ARIA -->
+            <label for="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              aria-required="true"
+              aria-describedby="password-desc"
+              placeholder="Introduce tu contraseña"
+            />
+            <span id="password-desc" class="visually-hidden">Por favor, introduce tu contraseña</span>
+
+            <!-- Botón accesible con descripción -->
+            <button type="submit" class="btn-animate">Iniciar sesión</button>
+          </form>
+
+          <!-- Enlace a la página de registro -->
+          <p>¿No tienes una cuenta? <a href="/register">Regístrate aquí</a></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+      <p>&copy; 2024 Lista de Tareas. Todos los derechos reservados.</p>
+    </footer>
+  </body>
 </html>
